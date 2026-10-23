@@ -1,59 +1,529 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
+<link rel="stylesheet" href="https://brandkit.tecnimoto.mx/tokens.css">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Tecni Moto Status</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D2D2D'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='26' font-family='system-ui' font-weight='800' fill='%23FFD100'%3ETM%3C/text%3E%3C/svg%3E">
+<title>TecniMoto · Estatus</title>
+<script>
+try {
+  const t = localStorage.getItem('tecnimotoTheme');
+  if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+} catch (_) {}
+</script>
 <style>
-:root{
-  --carbon:#2D2D2D; --yellow:#FFD100; --orange:#FF6B35; --mist:#F5F5F5;
-  --ink:#1A1A1A; --muted:#6B6B6B;
+
+@font-face {
+  font-family: "Racing Sans One";
+  src: url("https://brandkit.tecnimoto.mx/fonts/RacingSansOne-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--carbon);color:var(--mist);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-body{min-height:100dvh;display:grid;place-items:center;padding:40px 20px}
-.gate{width:100%;max-width:420px;text-align:center;display:grid;gap:18px;justify-items:center}
-.mark{width:72px;height:72px;border-radius:18px;background:var(--yellow);color:var(--carbon);display:grid;place-items:center;font-weight:800;letter-spacing:-.04em;font-size:22px}
-h1{margin:0;font-size:clamp(28px,6vw,36px);line-height:1.05;letter-spacing:-.03em}
-.lede{margin:0;color:#D8D8D8;line-height:1.5;font-size:15px}
-form{width:100%;display:grid;gap:10px}
-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-input[type="password"]{
-  width:100%;border:1px solid #4A4A4A;background:#1F1F1F;color:var(--mist);
-  border-radius:12px;padding:14px 16px;font-size:16px
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("https://brandkit.tecnimoto.mx/fonts/BebasNeue-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
 }
-input[type="password"]:focus{outline:2px solid var(--yellow);outline-offset:2px}
-button{
-  width:100%;border:0;border-radius:12px;padding:14px 16px;font-weight:700;
-  background:var(--yellow);color:var(--carbon);font-size:16px;cursor:pointer
+@font-face {
+  font-family: "Montserrat";
+  src: url("https://brandkit.tecnimoto.mx/fonts/Montserrat-Variable.woff2") format("woff2");
+  font-weight: 100 900; font-style: normal; font-display: swap;
 }
-button:hover{filter:brightness(1.05)}
-.msg{min-height:1.4em;margin:0;font-size:14px;color:var(--orange)}
-.host{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9A9A9A}
+
+:root {
+
+  --tm-yellow: #FFD100;
+  --tm-orange: #FF6B35;
+  --tm-charcoal: #2D2D2D;
+  --shadow-hard: 4px 4px 0 #2D2D2D;
+
+  --bg: #F5F5F5;
+  --surface: #FFFFFF;
+  --ink: #2D2D2D;
+  --accent: #FFD100;
+  --muted: #6B6B6B;
+  --line: #E0E0E0;
+ /* tm-success */
+ /* tm-danger from kit */
+  --r: 14px;
+  --f-display: "Racing Sans One", "Bebas Neue", system-ui, sans-serif;
+  --f-body: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #1c1c1c;
+  --surface: #2D2D2D;
+  --ink: #ffffff;
+  --muted: #b5b5b5;
+  --line: #4d4d4d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-padding-top: 56px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 var(--f-body);
+  -webkit-font-smoothing: antialiased;
+}
+body.locked { background: var(--ink); color: var(--bg); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 700; letter-spacing: -0.02em; }
+h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; }
+h2 { font-size: clamp(20px, 3vw, 26px); }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; }
+
+.gate {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 90%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
+    var(--ink);
+  color: var(--bg);
+}
+.gate-in { width: 100%; max-width: 420px; display: grid; gap: 18px; text-align: center; }
+.gate .mark {
+  width: 56px; height: 56px; margin: 0 auto;
+  border-radius: 16px;
+  background: var(--accent);
+  color: var(--bg);
+  display: grid; place-items: center;
+  font-family: var(--f-display);
+  font-size: 28px; font-weight: 800;
+}
+.gate .lede { color: color-mix(in srgb, var(--bg) 78%, transparent); font-size: 15px; }
+.gate form { display: grid; gap: 12px; text-align: left; }
+.gate label { font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
+.pwbox {
+  display: flex; align-items: stretch;
+  background: color-mix(in srgb, var(--bg) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+  border-radius: 12px;
+}
+.pwbox:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+.pwbox.bad { border-color: #f2907a; }
+.pwbox input {
+  flex: 1; min-width: 0; border: 0; background: transparent;
+  color: var(--bg); font: inherit; font-size: 17px; padding: 14px;
+  outline: none;
+}
+.gobtn {
+  font: inherit; font-weight: 600; border: 0; border-radius: 12px;
+  padding: 14px 18px; background: var(--accent); color: var(--bg); cursor: pointer;
+}
+.gobtn:disabled { cursor: progress; filter: saturate(0.6); }
+.gatemsg { min-height: 1.4em; font-size: 14px; }
+.gatemsg.err { color: #f6a491; }
+.gate .meta { font-size: 12.5px; color: color-mix(in srgb, var(--bg) 55%, transparent); }
+
+.top {
+  padding: 22px 0 28px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.top-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+.tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.seg { display: inline-flex; border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); border-radius: 10px; overflow: hidden; }
+.seg button {
+  font: inherit; font-size: 13px; font-weight: 600; padding: 7px 12px;
+  border: 0; background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent); cursor: pointer;
+}
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--ink); }
+.ibtn {
+  font: inherit; font-size: 13px; border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
+  background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent);
+  border-radius: 10px; padding: 7px 11px; cursor: pointer;
+}
+.hero { margin-top: 22px; }
+.hero .sub { margin-top: 10px; max-width: 62ch; color: color-mix(in srgb, var(--bg) 72%, transparent); }
+.fresh { margin: 18px 0 0; font-size: 13px; color: color-mix(in srgb, var(--bg) 55%, transparent); }
+
+main { padding: 36px 0 72px; display: grid; gap: 36px; }
+section { display: grid; gap: 14px; }
+.sec-head p { color: var(--muted); }
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px;
+  overflow-x: auto;
+}
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th {
+  font-size: 12.5px; color: var(--muted); font-weight: 500;
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
+}
+td { padding: 10px; border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); vertical-align: top; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+tr.key td { font-weight: 700; }
+.empty { color: var(--muted); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.kpi { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.kpi .l { font-size: 13px; color: var(--muted); }
+.kpi .v { font-family: var(--f-display); font-size: 28px; font-weight: 700; margin-top: 4px; }
+.note { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.assumptions { margin: 0; padding-left: 18px; color: var(--muted); }
+.langbar { position: absolute; top: 16px; right: 16px; }
+
+.gate .mark {
+  width: auto; height: auto; margin: 0 auto 4px;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  display: block;
+  font-size: inherit; font-weight: inherit;
+  box-shadow: none;
+}
+.gate .mark.mark-logo { padding: 0; }
+.gobtn {
+  box-shadow: 4px 4px 0 #2D2D2D;
+  color: #2D2D2D !important;
+  background: #FFD100 !important;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.gate h1, .gate .brand-title {
+  font-family: "Racing Sans One", "Bebas Neue", system-ui, sans-serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
 </style>
 </head>
-<body>
-  <main class="gate" id="gate">
-    <div class="mark" aria-hidden="true">TM</div>
-    <p class="host">status.tecnimoto.mx</p>
-    <h1>Tecni Moto Status</h1>
-    <p class="lede">Encrypted status page. The payload is AES-256-GCM and opens only with the access password. This first commit is a Pages placeholder until the encrypted status is published.</p>
-    <form id="unlock" autocomplete="off">
-      <label for="pw">Access password</label>
-      <input id="pw" type="password" required autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Enter the password">
-      <button type="submit">Open status</button>
-      <p class="msg" id="err" role="status" aria-live="polite"></p>
+<body class="locked">
+<div class="gate" id="gate">
+  <div class="langbar" id="gateLang"></div>
+  <div class="gate-in">
+    <div class="mark mark-logo" aria-hidden="true"><img src="https://brandkit.tecnimoto.mx/assets/logos/logo-horizontal-1200.png" alt="" width="220" height="64" style="width:220px;max-width:80vw;height:auto;display:block;margin:0 auto"></div>
+    <h1 data-i="title">TecniMoto · Estatus</h1>
+    <p class="lede" data-i="lede"></p>
+    <form id="gateForm">
+      <label for="pw" data-i="password">Password</label>
+      <div class="pwbox" id="pwbox">
+        <input id="pw" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="gobtn" id="unlockBtn" type="submit" data-i="unlock">Open</button>
+      <div class="gatemsg" id="err"></div>
     </form>
-  </main>
-  <script type="application/json" id="encrypted-status">{"alg":"AES-256-GCM","status":"placeholder","ciphertext":null}</script>
-  <script>
-    document.getElementById("unlock").addEventListener("submit", function (event) {
-      event.preventDefault();
-      document.getElementById("pw").value = "";
-      document.getElementById("err").textContent = "Encrypted payload not published yet. Placeholder only.";
-    });
-  </script>
+    <p class="meta" id="lockMeta"></p>
+  </div>
+</div>
+<div id="dash" hidden></div>
+<script>
+const PAYLOAD = {"v": 1, "iter": 1000000, "salt": "bcwMncjrGXAq5VdamNiVIg==", "iv": "JUfqIIbs/0kIRjHs", "ct": "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"};
+const LAST_ISO = "2026-10-23";
+const LAST_TXT = "Oct 23, 2026";
+const PAGE = {"copy": {"lede": "Estatus de socios. Ábrelo con la contraseña. Sin abrir, no hay cifras.", "unlock": "Abrir", "password": "Contraseña"}, "labels": {}, "title": "TecniMoto · Estatus"};
+const STORE = "tecnimoto";
+const DEFAULT_COPY = {
+  en: {
+    title: PAGE.title || "Cuentas Claras",
+    lede: "Encrypted financial status. Open with the access password.",
+    lockMeta: "Last refreshed {d}.",
+    password: "Password",
+    unlock: "Open",
+    empty: "Enter the password.",
+    bad: "Wrong password.",
+    checking: "Checking…",
+    opening: "Opening…",
+    openingDash: "Opening the status…",
+    lang: "Language",
+    lock: "Lock",
+    theme: "Theme",
+    pnl: "Income statement",
+    forecast: "Forecast",
+    pending: "Pending",
+    items: "Open items",
+    docs: "Documents",
+    cash: "Cash",
+    net: "Net",
+    assumptions: "Assumptions",
+    nothing: "Nothing here.",
+    scenario: "Scenario"
+  },
+  es: {
+    title: PAGE.title || "Cuentas Claras",
+    lede: "Estatus financiero cifrado. Ábrelo con la contraseña de acceso.",
+    lockMeta: "Última actualización: {d}.",
+    password: "Contraseña",
+    unlock: "Abrir",
+    empty: "Escribe la contraseña.",
+    bad: "Contraseña incorrecta.",
+    checking: "Revisando…",
+    opening: "Abriendo…",
+    openingDash: "Abriendo el estatus…",
+    lang: "Idioma",
+    lock: "Cerrar",
+    theme: "Tema",
+    pnl: "Estado de resultados",
+    forecast: "Pronóstico",
+    pending: "Pendiente",
+    items: "Pendientes",
+    docs: "Documentos",
+    cash: "Caja",
+    net: "Neto",
+    assumptions: "Supuestos",
+    nothing: "Nada aquí.",
+    scenario: "Escenario"
+  }
+};
+const LOCALE = { en: "en-US", es: "es-MX" };
+let LANG = "en";
+try { const l = localStorage.getItem(STORE + "Lang"); if (l && (DEFAULT_COPY[l] || (PAGE.copy || {})[l])) LANG = l; } catch (_) {}
+let DATA = null;
+let SCEN = null;
+
+function copyTable() {
+  const over = (PAGE.copy || {})[LANG] || {};
+  const base = DEFAULT_COPY[LANG] || DEFAULT_COPY.en;
+  return Object.assign({}, DEFAULT_COPY.en, base, over);
+}
+function t(key, vars) {
+  let s = copyTable()[key] || (DEFAULT_COPY.en[key] || key);
+  if (vars) Object.keys(vars).forEach(k => { s = s.replace("{" + k + "}", vars[k]); });
+  return s;
+}
+function label(key) {
+  const table = ((PAGE.labels || {})[LANG]) || ((PAGE.labels || {}).en) || {};
+  return table[key] || key;
+}
+function dx(text) {
+  const i18n = (DATA && DATA.i18n && DATA.i18n[LANG]) || {};
+  return i18n[text] || text;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function money(v) {
+  const n = Math.round(Number(v) || 0);
+  const sign = n < 0 ? "−" : "";
+  return sign + "$" + Math.abs(n).toLocaleString("en-US");
+}
+function fmtDate(iso) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || "")) return iso || LAST_TXT;
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Intl.DateTimeFormat(LOCALE[LANG] || "en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(new Date(Date.UTC(y, m - 1, d)));
+}
+
+const b64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function decrypt(pw) {
+  const enc = new TextEncoder();
+  const base = await crypto.subtle.importKey("raw", enc.encode(pw), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt: b64(PAYLOAD.salt), iterations: PAYLOAD.iter, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]
+  );
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(PAYLOAD.iv) }, key, b64(PAYLOAD.ct));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+function langsFrom(data) {
+  const set = new Set(["en"]);
+  Object.keys(PAGE.copy || {}).forEach(k => set.add(k));
+  Object.keys((data && data.i18n) || {}).forEach(k => { if (k !== "_note") set.add(k); });
+  return [...set];
+}
+function langSeg(data) {
+  const langs = langsFrom(data);
+  if (langs.length < 2) return "";
+  return `<div class="seg" role="group" aria-label="${t("lang")}">${langs.map(c =>
+    `<button type="button" data-lang="${c}" aria-pressed="${LANG === c}">${c}</button>`
+  ).join("")}</div>`;
+}
+function setLang(l) {
+  LANG = l;
+  try { localStorage.setItem(STORE + "Lang", l); } catch (_) {}
+  document.documentElement.lang = l;
+  if (DATA && !document.getElementById("dash").hidden) render(DATA);
+  else applyLock();
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-lang]");
+  if (b) setLang(b.dataset.lang);
+});
+
+const form = document.getElementById("gateForm");
+const pwIn = document.getElementById("pw");
+const msg = document.getElementById("err");
+const pwbox = document.getElementById("pwbox");
+const btn = document.getElementById("unlockBtn");
+function say(key, isErr) {
+  msg.classList.toggle("err", !!isErr);
+  msg.textContent = key ? t(key) : "";
+}
+function applyLock() {
+  document.documentElement.lang = LANG;
+  document.getElementById("gateLang").innerHTML = langSeg(null);
+  document.querySelectorAll("#gate [data-i]").forEach(el => { el.textContent = t(el.dataset.i); });
+  const last = /^\d{4}-\d{2}-\d{2}$/.test(LAST_ISO) ? fmtDate(LAST_ISO) : LAST_TXT;
+  document.getElementById("lockMeta").textContent = t("lockMeta", { d: last });
+}
+applyLock();
+
+async function unlock(pw, remembered) {
+  btn.disabled = true;
+  say(remembered ? "opening" : "checking");
+  try {
+    const data = await decrypt(pw);
+    try { sessionStorage.setItem(STORE + "Pw", pw); } catch (_) {}
+    render(data, true);
+  } catch (_) {
+    btn.disabled = false;
+    if (remembered) { say(null); try { sessionStorage.removeItem(STORE + "Pw"); } catch (_) {} return; }
+    pwbox.classList.add("bad");
+    say("bad", true);
+    pwIn.select();
+  }
+}
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const pw = pwIn.value.trim();
+  if (!pw) { say("empty", true); pwIn.focus(); return; }
+  unlock(pw, false);
+});
+(() => {
+  let saved = null;
+  try { saved = sessionStorage.getItem(STORE + "Pw"); } catch (_) {}
+  if (saved) unlock(saved, true); else pwIn.focus({ preventScroll: true });
+})();
+
+function seriesKeys(scen) {
+  const prefer = ["service", "brand", "training", "revenue", "delivery", "mentors", "direct", "fixed", "oneOff", "ebitda", "dep", "interest", "net", "cash"];
+  const skip = new Set(["low", "lowMonth"]);
+  const keys = Object.keys(scen).filter(k => Array.isArray(scen[k]) && !skip.has(k));
+  return prefer.filter(k => keys.includes(k)).concat(keys.filter(k => !prefer.includes(k)));
+}
+function pnlKeys(pnl) {
+  const lines = (pnl && pnl.lines) || {};
+  const order = (pnl.income || []).concat(pnl.costs || []).concat(pnl.result ? [pnl.result] : []);
+  const keys = Object.keys(lines);
+  if (order.length) return order.filter(k => k in lines).concat(keys.filter(k => !order.includes(k)));
+  return keys;
+}
+
+function view(d) {
+  const m = d.meta || {};
+  const pnl = d.pnl || {};
+  const fc = d.forecast || {};
+  const scenarios = Object.keys(fc.scenarios || {});
+  if (!SCEN || !scenarios.includes(SCEN)) SCEN = scenarios.includes("base") ? "base" : (scenarios[0] || null);
+  const scen = (SCEN && fc.scenarios) ? fc.scenarios[SCEN] : null;
+  const kpis = [];
+  if (scen && Array.isArray(scen.cash) && scen.cash.length) kpis.push({ l: t("cash"), v: money(scen.cash[scen.cash.length - 1]) });
+  if (pnl.lines && pnl.result && pnl.lines[pnl.result]) {
+    const vals = pnl.lines[pnl.result];
+    kpis.push({ l: t("net"), v: money(vals.reduce((a, b) => a + b, 0)) });
+  } else if (scen && Array.isArray(scen.net) && scen.net.length) {
+    kpis.push({ l: t("net"), v: money(scen.net[scen.net.length - 1]) });
+  }
+  if (scen && scen.low != null) kpis.push({ l: t("cash") + " · low", v: money(scen.low), n: scen.lowMonth || "" });
+
+  const pnlMonths = pnl.months || [];
+  const lineKeys = pnlKeys(pnl);
+  const pnlRows = lineKeys.map(k => {
+    const vals = pnl.lines[k] || [];
+    return `<tr class="${k === pnl.result ? "key" : ""}"><td>${esc(label(k))}</td>${vals.map(v => `<td class="r">${money(v)}</td>`).join("")}</tr>`;
+  }).join("");
+
+  const fcMonths = fc.months || [];
+  const sKeys = scen ? seriesKeys(scen) : [];
+  const fcRows = sKeys.map(k =>
+    `<tr class="${k === "net" || k === "cash" ? "key" : ""}"><td>${esc(label(k))}</td>${scen[k].map(v => `<td class="r">${money(v)}</td>`).join("")}</tr>`
+  ).join("");
+
+  const pending = ((d.balance || {}).pending) || [];
+  const items = d.openItems || [];
+  const files = ((d.drive || {}).files) || [];
+  const assum = fc.assumptions || [];
+
+  return `
+  <div class="top"><div class="wrap">
+    <div class="top-row">
+      <strong>${esc(PAGE.title || m.entity || t("title"))}</strong>
+      <div class="tools">
+        ${langSeg(d)}
+        ${scenarios.length > 1 ? `<div class="seg" role="group" aria-label="${t("scenario")}">${scenarios.map(s =>
+          `<button type="button" data-scen="${s}" aria-pressed="${SCEN === s}">${esc(s)}</button>`
+        ).join("")}</div>` : ""}
+        <button class="ibtn" id="themeBtn" type="button">${t("theme")}</button>
+        <button class="ibtn" id="lockBtn" type="button">${t("lock")}</button>
+      </div>
+    </div>
+    <div class="hero">
+      <h1>${esc(m.entity || PAGE.title || t("title"))}</h1>
+      <p class="sub">${esc(t("lede"))}</p>
+      <p class="fresh">${esc(t("lockMeta", { d: fmtDate(m.lastChecked || LAST_ISO) }))}${m.preparedBy ? " · " + esc(m.preparedBy) : ""}</p>
+    </div>
+    ${kpis.length ? `<div class="kpis" style="margin-top:22px">${kpis.map(k =>
+      `<div class="kpi"><div class="l">${esc(k.l)}</div><div class="v num">${k.v}</div>${k.n ? `<div class="note">${esc(k.n)}</div>` : ""}</div>`
+    ).join("")}</div>` : ""}
+  </div></div>
+  <main class="wrap">
+    ${lineKeys.length ? `<section id="pnl">
+      <div class="sec-head"><h2>${t("pnl")}</h2><p>${esc(dx(pnl.source || ""))}</p></div>
+      <div class="panel"><table>
+        <thead><tr><th></th>${pnlMonths.map(mo => `<th class="r">${esc(mo)}</th>`).join("")}</tr></thead>
+        <tbody>${pnlRows}</tbody>
+      </table></div>
+    </section>` : ""}
+    ${scen ? `<section id="forecast">
+      <div class="sec-head"><h2>${t("forecast")}</h2><p>${esc(dx((fc.scenarioNotes || {})[SCEN] || ""))}</p></div>
+      <div class="panel"><table>
+        <thead><tr><th></th>${fcMonths.map(mo => `<th class="r">${esc(mo)}</th>`).join("")}</tr></thead>
+        <tbody>${fcRows}</tbody>
+      </table></div>
+      ${assum.length ? `<ul class="assumptions">${assum.map(a => `<li>${esc(dx(a))}</li>`).join("")}</ul>` : ""}
+    </section>` : ""}
+    ${pending.length ? `<section id="pending">
+      <div class="sec-head"><h2>${t("pending")}</h2></div>
+      <div class="panel"><table><tbody>${pending.map(p =>
+        `<tr><td>${esc(dx(p.label))}${p.note ? `<span class="note">${esc(dx(p.note))}</span>` : ""}</td><td class="r">${money(p.value)}</td></tr>`
+      ).join("")}</tbody></table></div>
+    </section>` : ""}
+    ${items.length ? `<section id="items">
+      <div class="sec-head"><h2>${t("items")}</h2></div>
+      <div class="panel"><table><tbody>${items.map(it =>
+        `<tr><td><b>${esc(dx(it.title || ""))}</b><span class="note">${esc(dx(it.detail || ""))}</span></td><td>${esc(dx(it.owner || ""))}</td><td>${esc(it.status || "")}</td></tr>`
+      ).join("")}</tbody></table></div>
+    </section>` : ""}
+    ${files.length ? `<section id="docs">
+      <div class="sec-head"><h2>${t("docs")}</h2></div>
+      <div class="panel"><table><tbody>${files.map(f =>
+        `<tr><td>${f.url ? `<a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.title || f.name || "file")}</a>` : esc(f.title || f.name || "")}</td></tr>`
+      ).join("")}</tbody></table></div>
+    </section>` : ""}
+  </main>`;
+}
+
+function render(d, first) {
+  DATA = d;
+  document.getElementById("gate").hidden = true;
+  document.body.classList.remove("locked");
+  const el = document.getElementById("dash");
+  el.hidden = false;
+  el.innerHTML = view(d);
+  if (first) window.scrollTo(0, 0);
+  el.querySelectorAll("[data-scen]").forEach(b => b.addEventListener("click", () => { SCEN = b.dataset.scen; render(DATA); }));
+  const themeBtn = document.getElementById("themeBtn");
+  if (themeBtn) themeBtn.addEventListener("click", () => {
+    const root = document.documentElement;
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem(STORE + "Theme", next); } catch (_) {}
+  });
+  const lockBtn = document.getElementById("lockBtn");
+  if (lockBtn) lockBtn.addEventListener("click", () => {
+    try { sessionStorage.removeItem(STORE + "Pw"); } catch (_) {}
+    location.reload();
+  });
+}
+</script>
 </body>
 </html>
