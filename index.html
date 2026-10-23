@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Tecni Moto Status</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232D2D2D'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-size='26' font-family='system-ui' font-weight='800' fill='%23FFD100'%3ETM%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --carbon:#2D2D2D; --yellow:#FFD100; --orange:#FF6B35; --mist:#F5F5F5;
+  --ink:#1A1A1A; --muted:#6B6B6B;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--carbon);color:var(--mist);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+body{min-height:100dvh;display:grid;place-items:center;padding:40px 20px}
+.gate{width:100%;max-width:420px;text-align:center;display:grid;gap:18px;justify-items:center}
+.mark{width:72px;height:72px;border-radius:18px;background:var(--yellow);color:var(--carbon);display:grid;place-items:center;font-weight:800;letter-spacing:-.04em;font-size:22px}
+h1{margin:0;font-size:clamp(28px,6vw,36px);line-height:1.05;letter-spacing:-.03em}
+.lede{margin:0;color:#D8D8D8;line-height:1.5;font-size:15px}
+form{width:100%;display:grid;gap:10px}
+label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+input[type="password"]{
+  width:100%;border:1px solid #4A4A4A;background:#1F1F1F;color:var(--mist);
+  border-radius:12px;padding:14px 16px;font-size:16px
+}
+input[type="password"]:focus{outline:2px solid var(--yellow);outline-offset:2px}
+button{
+  width:100%;border:0;border-radius:12px;padding:14px 16px;font-weight:700;
+  background:var(--yellow);color:var(--carbon);font-size:16px;cursor:pointer
+}
+button:hover{filter:brightness(1.05)}
+.msg{min-height:1.4em;margin:0;font-size:14px;color:var(--orange)}
+.host{margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#9A9A9A}
+</style>
+</head>
+<body>
+  <main class="gate" id="gate">
+    <div class="mark" aria-hidden="true">TM</div>
+    <p class="host">status.tecnimoto.mx</p>
+    <h1>Tecni Moto Status</h1>
+    <p class="lede">Encrypted status page. The payload is AES-256-GCM and opens only with the access password. This first commit is a Pages placeholder until the encrypted status is published.</p>
+    <form id="unlock" autocomplete="off">
+      <label for="pw">Access password</label>
+      <input id="pw" type="password" required autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Enter the password">
+      <button type="submit">Open status</button>
+      <p class="msg" id="err" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <script type="application/json" id="encrypted-status">{"alg":"AES-256-GCM","status":"placeholder","ciphertext":null}</script>
+  <script>
+    document.getElementById("unlock").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.getElementById("pw").value = "";
+      document.getElementById("err").textContent = "Encrypted payload not published yet. Placeholder only.";
+    });
+  </script>
+</body>
+</html>
