@@ -13,7 +13,6 @@ try {
 } catch (_) {}
 </script>
 <style>
-
 @font-face {
   font-family: "Racing Sans One";
   src: url("https://brandkit.tecnimoto.mx/fonts/RacingSansOne-Regular.ttf") format("truetype");
@@ -31,31 +30,33 @@ try {
 }
 
 :root {
-
   --tm-yellow: #FFD100;
   --tm-orange: #FF6B35;
   --tm-charcoal: #2D2D2D;
+  --tm-gray: #F5F5F5;
+  --tm-success: #2fae5e;
+  --tm-danger: #e03e2d;
   --shadow-hard: 4px 4px 0 #2D2D2D;
-
   --bg: #F5F5F5;
-  --surface: #FFFFFF;
+  --surface: #F5F5F5;
   --ink: #2D2D2D;
   --accent: #FFD100;
-  --muted: #6B6B6B;
-  --line: #E0E0E0;
- /* tm-success */
- /* tm-danger from kit */
+  --muted: color-mix(in srgb, #2D2D2D 62%, #F5F5F5);
+  --line: color-mix(in srgb, #2D2D2D 18%, #F5F5F5);
+  --good: var(--tm-success);
+  --attn: var(--tm-danger);
   --r: 14px;
   --f-display: "Racing Sans One", "Bebas Neue", system-ui, sans-serif;
+  --f-condensed: "Bebas Neue", "Racing Sans One", system-ui, sans-serif;
   --f-body: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: light;
 }
 :root[data-theme="dark"] {
-  --bg: #1c1c1c;
+  --bg: #2D2D2D;
   --surface: #2D2D2D;
-  --ink: #ffffff;
-  --muted: #b5b5b5;
-  --line: #4d4d4d;
+  --ink: #F5F5F5;
+  --muted: color-mix(in srgb, #F5F5F5 68%, #2D2D2D);
+  --line: color-mix(in srgb, #F5F5F5 22%, #2D2D2D);
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -70,13 +71,13 @@ body {
 }
 body.locked { background: var(--ink); color: var(--bg); }
 .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 700; letter-spacing: -0.02em; }
+h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-style: italic; letter-spacing: 0.01em; }
 h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.1; }
-h2 { font-size: clamp(20px, 3vw, 26px); }
+h2 { font-size: clamp(24px, 3vw, 26px); }
 p { margin: 0; }
-a { color: var(--accent); }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.num { font-variant-numeric: tabular-nums; }
+a { color: #FF6B35; }
+:focus-visible { outline: 2px solid #FF6B35; outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; font-family: var(--f-condensed); }
 
 .gate {
   min-height: 100vh;
@@ -84,23 +85,31 @@ a { color: var(--accent); }
   display: grid;
   place-items: center;
   padding: 40px 20px;
+  overflow: visible;
   background:
     radial-gradient(ellipse 70% 50% at 10% 90%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
     var(--ink);
   color: var(--bg);
 }
-.gate-in { width: 100%; max-width: 420px; display: grid; gap: 18px; text-align: center; }
-.gate .mark {
-  width: 56px; height: 56px; margin: 0 auto;
-  border-radius: 16px;
-  background: var(--accent);
-  color: var(--bg);
-  display: grid; place-items: center;
-  font-family: var(--f-display);
-  font-size: 28px; font-weight: 800;
+.gate-in { width: 100%; max-width: 420px; display: grid; gap: 18px; text-align: center; overflow: visible; justify-items: center; }
+.brand-logo {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 4px;
+  overflow: visible;
+  display: block;
+  background: transparent;
+}
+.brand-logo img {
+  display: block;
+  width: auto;
+  max-width: min(280px, 80vw);
+  height: auto;
+  object-fit: contain;
 }
 .gate .lede { color: color-mix(in srgb, var(--bg) 78%, transparent); font-size: 15px; }
-.gate form { display: grid; gap: 12px; text-align: left; }
+.gate form { width: 100%; display: grid; gap: 12px; text-align: left; }
 .gate label { font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
 .pwbox {
   display: flex; align-items: stretch;
@@ -108,20 +117,29 @@ a { color: var(--accent); }
   border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
   border-radius: 12px;
 }
-.pwbox:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
-.pwbox.bad { border-color: #f2907a; }
+.pwbox:focus-within { border-color: #FF6B35; box-shadow: 0 0 0 3px color-mix(in srgb, #FF6B35 35%, transparent); }
+.pwbox.bad { border-color: var(--tm-danger); }
 .pwbox input {
   flex: 1; min-width: 0; border: 0; background: transparent;
   color: var(--bg); font: inherit; font-size: 17px; padding: 14px;
   outline: none;
 }
 .gobtn {
-  font: inherit; font-weight: 600; border: 0; border-radius: 12px;
-  padding: 14px 18px; background: var(--accent); color: var(--bg); cursor: pointer;
+  font: inherit;
+  font-family: var(--f-body);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  background: #FFD100;
+  color: #2D2D2D !important;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #2D2D2D;
 }
 .gobtn:disabled { cursor: progress; filter: saturate(0.6); }
 .gatemsg { min-height: 1.4em; font-size: 14px; }
-.gatemsg.err { color: #f6a491; }
+.gatemsg.err { color: var(--tm-danger); }
 .gate .meta { font-size: 12.5px; color: color-mix(in srgb, var(--bg) 55%, transparent); }
 
 .top {
@@ -155,6 +173,7 @@ section { display: grid; gap: 14px; }
   border-radius: var(--r);
   padding: 18px;
   overflow-x: auto;
+  box-shadow: var(--shadow-hard);
 }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 th {
@@ -162,48 +181,23 @@ th {
   text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
 }
 td { padding: 10px; border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); vertical-align: top; }
-td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--f-condensed); }
 tr.key td { font-weight: 700; }
 .empty { color: var(--muted); }
 .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-.kpi { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); }
+.kpi { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); box-shadow: var(--shadow-hard); }
 .kpi .l { font-size: 13px; color: var(--muted); }
-.kpi .v { font-family: var(--f-display); font-size: 28px; font-weight: 700; margin-top: 4px; }
+.kpi .v { font-family: var(--f-condensed); font-size: 28px; font-weight: 400; margin-top: 4px; }
 .note { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 .assumptions { margin: 0; padding-left: 18px; color: var(--muted); }
 .langbar { position: absolute; top: 16px; right: 16px; }
-
-.gate .mark {
-  width: auto; height: auto; margin: 0 auto 4px;
-  border-radius: 0;
-  background: transparent;
-  color: inherit;
-  display: block;
-  font-size: inherit; font-weight: inherit;
-  box-shadow: none;
-}
-.gate .mark.mark-logo { padding: 0; }
-.gobtn {
-  box-shadow: 4px 4px 0 #2D2D2D;
-  color: #2D2D2D !important;
-  background: #FFD100 !important;
-  font-family: "Montserrat", system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-}
-.gate h1, .gate .brand-title {
-  font-family: "Racing Sans One", "Bebas Neue", system-ui, sans-serif;
-  font-style: italic;
-  font-weight: 400;
-}
-
 </style>
 </head>
 <body class="locked">
 <div class="gate" id="gate">
   <div class="langbar" id="gateLang"></div>
   <div class="gate-in">
-    <div class="mark mark-logo" aria-hidden="true"><img src="https://brandkit.tecnimoto.mx/assets/logos/logo-horizontal-1200.png" alt="" width="220" height="64" style="width:220px;max-width:80vw;height:auto;display:block;margin:0 auto"></div>
+    <div class="brand-logo" aria-hidden="true"><img src="https://brandkit.tecnimoto.mx/assets/logos/logo-horizontal-1200.png" alt="" width="280" height="80"></div>
     <h1 data-i="title">TecniMoto · Estatus</h1>
     <p class="lede" data-i="lede"></p>
     <form id="gateForm">
@@ -226,7 +220,7 @@ const PAGE = {"copy": {"es": {"title": "TecniMoto · Estatus", "lede": "Estatus 
 const STORE = "tecnimoto";
 const DEFAULT_COPY = {
   en: {
-    title: PAGE.title || "Cuentas Claras",
+    title: PAGE.title || "TecniMoto",
     lede: "Encrypted financial status. Open with the access password.",
     lockMeta: "Last refreshed {d}.",
     password: "Password",
@@ -251,7 +245,7 @@ const DEFAULT_COPY = {
     scenario: "Scenario"
   },
   es: {
-    title: PAGE.title || "Cuentas Claras",
+    title: PAGE.title || "TecniMoto",
     lede: "Estatus financiero cifrado. Ábrelo con la contraseña de acceso.",
     lockMeta: "Última actualización: {d}.",
     password: "Contraseña",
