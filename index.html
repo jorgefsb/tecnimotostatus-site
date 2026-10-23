@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>TecniMoto · Estatus</title>
+<title>TecniMoto · Estatus de socios</title>
 <script>
 try {
   const t = localStorage.getItem('tecnimotoTheme');
@@ -13,48 +13,22 @@ try {
 } catch (_) {}
 </script>
 <style>
-@font-face {
-  font-family: "Racing Sans One";
-  src: url("https://brandkit.tecnimoto.mx/fonts/RacingSansOne-Regular.ttf") format("truetype");
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Bebas Neue";
-  src: url("https://brandkit.tecnimoto.mx/fonts/BebasNeue-Regular.woff2") format("woff2");
-  font-weight: 400; font-style: normal; font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat";
-  src: url("https://brandkit.tecnimoto.mx/fonts/Montserrat-Variable.woff2") format("woff2");
-  font-weight: 100 900; font-style: normal; font-display: swap;
-}
-
+@font-face { font-family: "Racing Sans One"; src: url("https://brandkit.tecnimoto.mx/fonts/RacingSansOne-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Bebas Neue"; src: url("https://brandkit.tecnimoto.mx/fonts/BebasNeue-Regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("https://brandkit.tecnimoto.mx/fonts/Montserrat-Variable.woff2") format("woff2"); font-weight: 100 900; font-style: normal; font-display: swap; }
 :root {
-  --tm-yellow: #FFD100;
-  --tm-orange: #FF6B35;
-  --tm-charcoal: #2D2D2D;
-  --tm-gray: #F5F5F5;
-  --tm-success: #2fae5e;
-  --tm-danger: #e03e2d;
-  --shadow-hard: 4px 4px 0 #2D2D2D;
-  --bg: #F5F5F5;
-  --surface: #F5F5F5;
-  --ink: #2D2D2D;
-  --accent: #FFD100;
-  --muted: color-mix(in srgb, #2D2D2D 62%, #F5F5F5);
-  --line: color-mix(in srgb, #2D2D2D 18%, #F5F5F5);
-  --good: var(--tm-success);
-  --attn: var(--tm-danger);
-  --r: 14px;
+  --tm-yellow: #FFD100; --tm-orange: #FF6B35; --tm-charcoal: #2D2D2D; --tm-gray: #F5F5F5;
+  --tm-success: #2fae5e; --tm-danger: #e03e2d; --shadow-hard: 4px 4px 0 #2D2D2D;
+  --bg: #F5F5F5; --surface: #F5F5F5; --ink: #2D2D2D; --accent: #FFD100;
+  --muted: color-mix(in srgb, #2D2D2D 62%, #F5F5F5); --line: color-mix(in srgb, #2D2D2D 18%, #F5F5F5);
+  --good: var(--tm-success); --attn: var(--tm-danger); --r: 14px;
   --f-display: "Racing Sans One", "Bebas Neue", system-ui, sans-serif;
   --f-condensed: "Bebas Neue", "Racing Sans One", system-ui, sans-serif;
   --f-body: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: light;
 }
 :root[data-theme="dark"] {
-  --bg: #2D2D2D;
-  --surface: #2D2D2D;
-  --ink: #F5F5F5;
+  --bg: #2D2D2D; --surface: #2D2D2D; --ink: #F5F5F5;
   --muted: color-mix(in srgb, #F5F5F5 68%, #2D2D2D);
   --line: color-mix(in srgb, #F5F5F5 22%, #2D2D2D);
   color-scheme: dark;
@@ -62,13 +36,7 @@ try {
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { scroll-padding-top: 56px; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 16px/1.55 var(--f-body);
-  -webkit-font-smoothing: antialiased;
-}
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 var(--f-body); -webkit-font-smoothing: antialiased; }
 body.locked { background: var(--ink); color: var(--bg); }
 .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
 h1, h2, h3 { margin: 0; font-family: var(--f-display); font-weight: 400; font-style: italic; letter-spacing: 0.01em; }
@@ -78,108 +46,38 @@ p { margin: 0; }
 a { color: #FF6B35; }
 :focus-visible { outline: 2px solid #FF6B35; outline-offset: 2px; }
 .num { font-variant-numeric: tabular-nums; font-family: var(--f-condensed); }
-
-.gate {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: grid;
-  place-items: center;
-  padding: 40px 20px;
-  overflow: visible;
-  background:
-    radial-gradient(ellipse 70% 50% at 10% 90%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
-    var(--ink);
-  color: var(--bg);
-}
+.gate { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 40px 20px; overflow: visible; background: radial-gradient(ellipse 70% 50% at 10% 90%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%), var(--ink); color: var(--bg); }
 .gate-in { width: 100%; max-width: 420px; display: grid; gap: 18px; text-align: center; overflow: visible; justify-items: center; }
-.brand-logo {
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto 4px;
-  overflow: visible;
-  display: block;
-  background: transparent;
-}
-.brand-logo img {
-  display: block;
-  width: auto;
-  max-width: min(280px, 80vw);
-  height: auto;
-  object-fit: contain;
-}
+.brand-logo { width: auto; max-width: 100%; height: auto; margin: 0 auto 4px; overflow: visible; display: block; background: transparent; }
+.brand-logo img { display: block; width: auto; max-width: min(280px, 80vw); height: auto; object-fit: contain; }
 .gate .lede { color: color-mix(in srgb, var(--bg) 78%, transparent); font-size: 15px; }
 .gate form { width: 100%; display: grid; gap: 12px; text-align: left; }
 .gate label { font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
-.pwbox {
-  display: flex; align-items: stretch;
-  background: color-mix(in srgb, var(--bg) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
-  border-radius: 12px;
-}
+.pwbox { display: flex; align-items: stretch; background: color-mix(in srgb, var(--bg) 8%, transparent); border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); border-radius: 12px; }
 .pwbox:focus-within { border-color: #FF6B35; box-shadow: 0 0 0 3px color-mix(in srgb, #FF6B35 35%, transparent); }
 .pwbox.bad { border-color: var(--tm-danger); }
-.pwbox input {
-  flex: 1; min-width: 0; border: 0; background: transparent;
-  color: var(--bg); font: inherit; font-size: 17px; padding: 14px;
-  outline: none;
-}
-.gobtn {
-  font: inherit;
-  font-family: var(--f-body);
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  border: 0;
-  border-radius: 12px;
-  padding: 14px 18px;
-  background: #FFD100;
-  color: #2D2D2D !important;
-  cursor: pointer;
-  box-shadow: 4px 4px 0 #2D2D2D;
-}
+.pwbox input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--bg); font: inherit; font-size: 17px; padding: 14px; outline: none; }
+.gobtn { font: inherit; font-family: var(--f-body); font-weight: 700; letter-spacing: 0.03em; border: 0; border-radius: 12px; padding: 14px 18px; background: #FFD100; color: #2D2D2D !important; cursor: pointer; box-shadow: 4px 4px 0 #2D2D2D; }
 .gobtn:disabled { cursor: progress; filter: saturate(0.6); }
 .gatemsg { min-height: 1.4em; font-size: 14px; }
 .gatemsg.err { color: var(--tm-danger); }
 .gate .meta { font-size: 12.5px; color: color-mix(in srgb, var(--bg) 55%, transparent); }
-
-.top {
-  padding: 22px 0 28px;
-  background: var(--ink);
-  color: var(--bg);
-}
+.top { padding: 22px 0 28px; background: var(--ink); color: var(--bg); }
 .top-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
 .tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .seg { display: inline-flex; border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); border-radius: 10px; overflow: hidden; }
-.seg button {
-  font: inherit; font-size: 13px; font-weight: 600; padding: 7px 12px;
-  border: 0; background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent); cursor: pointer;
-}
+.seg button { font: inherit; font-size: 13px; font-weight: 600; padding: 7px 12px; border: 0; background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent); cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--bg); color: var(--ink); }
-.ibtn {
-  font: inherit; font-size: 13px; border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent);
-  background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent);
-  border-radius: 10px; padding: 7px 11px; cursor: pointer;
-}
+.ibtn { font: inherit; font-size: 13px; border: 1px solid color-mix(in srgb, var(--bg) 22%, transparent); background: transparent; color: color-mix(in srgb, var(--bg) 78%, transparent); border-radius: 10px; padding: 7px 11px; cursor: pointer; }
 .hero { margin-top: 22px; }
 .hero .sub { margin-top: 10px; max-width: 62ch; color: color-mix(in srgb, var(--bg) 72%, transparent); }
 .fresh { margin: 18px 0 0; font-size: 13px; color: color-mix(in srgb, var(--bg) 55%, transparent); }
-
 main { padding: 36px 0 72px; display: grid; gap: 36px; }
 section { display: grid; gap: 14px; }
 .sec-head p { color: var(--muted); }
-.panel {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  padding: 18px;
-  overflow-x: auto;
-  box-shadow: var(--shadow-hard);
-}
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; overflow-x: auto; box-shadow: var(--shadow-hard); }
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th {
-  font-size: 12.5px; color: var(--muted); font-weight: 500;
-  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line);
-}
+th { font-size: 12.5px; color: var(--muted); font-weight: 500; text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
 td { padding: 10px; border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); vertical-align: top; }
 td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--f-condensed); }
 tr.key td { font-weight: 700; }
@@ -198,7 +96,7 @@ tr.key td { font-weight: 700; }
   <div class="langbar" id="gateLang"></div>
   <div class="gate-in">
     <div class="brand-logo" aria-hidden="true"><img src="https://brandkit.tecnimoto.mx/assets/logos/logo-horizontal-1200.png" alt="" width="280" height="80"></div>
-    <h1 data-i="title">TecniMoto · Estatus</h1>
+    <h1 data-i="title">TecniMoto · Estatus de socios</h1>
     <p class="lede" data-i="lede"></p>
     <form id="gateForm">
       <label for="pw" data-i="password">Password</label>
@@ -271,7 +169,7 @@ const DEFAULT_COPY = {
   }
 };
 const LOCALE = { en: "en-US", es: "es-MX" };
-let LANG = "es";
+let LANG = "en";
 try { const l = localStorage.getItem(STORE + "Lang"); if (l && (DEFAULT_COPY[l] || (PAGE.copy || {})[l])) LANG = l; } catch (_) {}
 let DATA = null;
 let SCEN = null;
@@ -320,7 +218,7 @@ async function decrypt(pw) {
 
 function langsFrom(data) {
   const set = new Set(["en"]);
-  Object.keys(PAGE.copy || {}).forEach(k => { if (/^[a-z]{2}$/.test(k)) set.add(k); });
+  Object.keys(PAGE.copy || {}).forEach(k => set.add(k));
   Object.keys((data && data.i18n) || {}).forEach(k => { if (k !== "_note") set.add(k); });
   return [...set];
 }
