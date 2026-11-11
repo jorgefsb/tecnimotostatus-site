@@ -48,6 +48,10 @@ En línea. Este repo solo tiene la página y el Worker que la sirve; el contenid
 
 Worker de Cloudflare `tecnimoto-status` (`worker.mjs`, `wrangler.jsonc`). El estilo sigue [brandkit.tecnimoto.mx](https://brandkit.tecnimoto.mx) (`tokens.css`), no la marca personal de Jorge Suárez.
 
+## Licencia
+
+Este repo no tiene archivo de licencia, así que Tecni Moto Garage conserva todos los derechos sobre el código, el contenido y la marca. Si quieres reutilizar algo, pide permiso primero abriendo un issue.
+
 ---
 
 <div align="center">
